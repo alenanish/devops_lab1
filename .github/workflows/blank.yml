@@ -29,7 +29,5 @@ jobs:
         name: cpp_app
         path: source.o
         retention-days: 10
-        
-    - name: download artifact
-      uses: actions/download-artifact@v2.1.1
+      
     
