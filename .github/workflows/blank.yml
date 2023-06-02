@@ -21,7 +21,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: build
-      run: g++ Source.cpp -o Source.o
+      run: g++ Source.cpp -o source.o
     
   upload_artifact:
     needs: "checkout"
@@ -34,7 +34,7 @@ jobs:
       uses: actions/upload-artifact@v3.1.2
       with:
         name: cpp_app
-        path: Source.o
+        path: source.o
         retention-days: 10
         
     #- name: download artifact
