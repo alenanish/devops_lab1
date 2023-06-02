@@ -22,10 +22,4 @@ jobs:
     - uses: actions/checkout@v3
     - name: build
       run: g++ Source.cpp  
-      
-    - name: upload artifact
-      uses: action/upload-artifact@v3.1.2
-      with:
-        name: lab_cpp
-        path: source.o
-        retention-days: 7
+    
