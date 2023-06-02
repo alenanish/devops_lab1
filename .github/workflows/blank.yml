@@ -34,7 +34,7 @@ jobs:
       uses: actions/upload-artifact@v3.1.2
       with:
         name: cpp_app
-        path: source.o
+        path: Source.o
         retention-days: 10
         
     - name: download artifact
