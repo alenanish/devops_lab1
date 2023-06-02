@@ -13,7 +13,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build_matrix:
+  checkout:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
@@ -23,10 +23,20 @@ jobs:
     - name: build
       run: g++ Source.cpp  
     
+  upload_artifact:
+    needs: "checkout"
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
     - name: upload artifact
       uses: actions/upload-artifact@v3.1.2
       with:
         name: cpp_app
         path: source.o
         retention-days: 10
+        
+    - name: download artifact
+      uses: actions/download-artifact@v2.1.1
     
