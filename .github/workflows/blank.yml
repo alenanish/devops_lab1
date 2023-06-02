@@ -21,7 +21,7 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@3
+    - uses: actions/checkout@v3
     - name: build
       run: g++ Source.cpp  
       
@@ -29,4 +29,5 @@ jobs:
       uses: action/upload-artifact@v3.1.2
       with:
         name: lab_cpp
+        path: source.o
         retention-days: 7
