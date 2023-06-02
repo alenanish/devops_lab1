@@ -30,6 +30,6 @@ jobs:
         path: source.o
         retention-days: 10
         
-    #- name: download artifact
-    #  uses: actions/download-artifact@v2.1.1
+    - name: download artifact
+      uses: actions/download-artifact@v2.1.1
     
