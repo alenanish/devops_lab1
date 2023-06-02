@@ -23,3 +23,9 @@ jobs:
     - name: build
       run: g++ Source.cpp  
     
+    - name: uplaoad artifacts
+      uses: actions/uplaoad-artifacts@v3.1.2
+      with:
+        name: cpp_app
+        retention-days: 10
+    
