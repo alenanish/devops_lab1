@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "CppUnitTest.h"
-#include "..\MergeTwoSortedLists\Source.cpp"
+#include "Source.cpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
