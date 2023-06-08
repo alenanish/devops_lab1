@@ -14,25 +14,14 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   checkout:
-    #strategy:
-      #matrix:
-        #os: [windows-latest, ubuntu-latest, macos-latest]
-    #runs-on: ${{ matrix.os }}
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
     steps:
-    - name: checkout
     - uses: actions/checkout@v3
     - name: build
       run: g++ Source.cpp -o source.o
-      
-    - name: install cppunit
-      run: sudo apt install -y libcppunit-dev
-    - name: configure
-      run: ./configure
-    - name: make
-      run: make
-    - name: make test
-      run: make test
     
     - name: upload artifact
       uses: actions/upload-artifact@v3.1.2
@@ -41,4 +30,3 @@ jobs:
         path: source.o
         retention-days: 10
       
-    
