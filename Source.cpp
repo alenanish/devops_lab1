@@ -1,65 +1,104 @@
 #include <iostream>
-
-using namespace std;
+#include <string>
 
 
 // Definition for singly-linked list.
- struct ListNode {
-     int val;
-     ListNode *next;
-     ListNode() : val(0), next(nullptr) {}
-     ListNode(int x) : val(x), next(nullptr) {}
-     ListNode(int x, ListNode *next) : val(x), next(next) {}
-     ListNode(ListNode* head) : val(head->val), next(head->next) {}
+struct ListNode {
+    int val;
+    ListNode* next;
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode* next) : val(x), next(next) {}
+    ListNode(ListNode* head) : val(head->val), next(head->next) {}
 };
 
- void printList(ListNode* head) {
-     while (head) {
-         cout << head->val << "->";
-         head = head->next;
-     }
-     cout << "nullptr\n";
- }
+void printList(ListNode* head) {
+    while (head) {
+        std::cout << head->val << "->";
+        head = head->next;
+    }
+    std::cout << "nullptr\n";
+}
 
- ListNode*  mergeTwoLists(ListNode* list1, ListNode* list2) {
-     ListNode* head = nullptr;
-     if (list1 && list2 ) {
-         if (list1->val < list2->val) {
-             head = list1;
-             list1 = list1->next;
-         }
-         else {
-             head = list2;
-             list2 = list2->next;
-         }
-     }
-     else {
-         list1 != nullptr ? head = list1 : list2 != nullptr ? head = list2 : head;
-     }
+std::string getResult(ListNode* head) {
+    std::string res = "";
+    while (head) {
+        std::string num = std::to_string(head->val);
+        res.append(num);
+        res.append("->");
+        head = head->next;
+    }
+    res.append("nullptr");
+
+    return res;
+}
+
+ListNode* createList(int n, int d) {
+    ListNode* list = new ListNode(d);
+    ListNode* head = list;
+    for (int i = 1; i < n; i++) {
+        ListNode* cur = new ListNode(d + 2 * i);
+        list->next = cur;
+        list = list->next;
+    }
+    return head;
+}
+
+void deleteList(ListNode* head) {
+    while (head)
+    {
+        ListNode* next = head->next;
+        delete head;
+        head = next;
+    }
+
+}
+
+std::string mergeTwoLists(int n, int m) {
+    ListNode* list1 = createList(n, 0);
+    printList(list1);
+
+    ListNode* list2 = createList(m, 1);
+    printList(list2);
 
 
-     //printList(head);
-     ListNode* cur = head;
-     while (list1 != nullptr && list2 != nullptr) {
-         if (list1->val < list2->val) {
-             cur->next = list1;
-             list1 = list1->next;
-         }
-         else {
-             cur->next = list2;
-             list2 = list2 -> next;
-         }
-         cur = cur->next;
-     }
-     if (!list1 && list2) {
-         cur->next = list2;
-     }
-     if (!list2 && list1) {
-         cur->next = list1;
-     }
-     //printList(head);
-     return head;
- }
+    ListNode* head = nullptr;
+    if (list1 && list2) {
+        if (list1->val < list2->val) {
+            head = list1;
+            list1 = list1->next;
+        }
+        else {
+            head = list2;
+            list2 = list2->next;
+        }
+    }
+    else {
+        list1 != nullptr ? head = list1 : list2 != nullptr ? head = list2 : head;
+    }
+
+    ListNode* cur = head;
+    while (list1 != nullptr && list2 != nullptr) {
+        if (list1->val < list2->val) {
+            cur->next = list1;
+            list1 = list1->next;
+        }
+        else {
+            cur->next = list2;
+            list2 = list2->next;
+        }
+        cur = cur->next;
+    }
+    if (!list1 && list2) {
+        cur->next = list2;
+    }
+    if (!list2 && list1) {
+        cur->next = list1;
+    }
+    std::string result = getResult(head);
+    deleteList(head);
+    return result;
+}
 
 
 ListNode* reverseList(ListNode* head) {
@@ -98,14 +137,14 @@ ListNode* rotateRight(ListNode* head, int k) {
         {
             if (prev->next)
             {
-                if (prev->next->next == NULL)
+                if (prev->next->next == nullptr)
                     break;
             }
             prev = prev->next;
         }
-        if (prev != NULL) {
+        if (prev != nullptr) {
             ListNode* tmp = prev->next;
-            prev->next = NULL;
+            prev->next = nullptr;
             tmp->next = head;
             head = tmp;
             prev = head;
@@ -115,44 +154,16 @@ ListNode* rotateRight(ListNode* head, int k) {
     return head;
 }
 
-void deleteList(ListNode* head) {
-    while (head)
-    {
-        ListNode* next = head->next;
-        delete head;
-        head = next;
-    }
 
-}
 
 int main() {
     int n, m;
     std::cin >> n;
     std::cin >> m;
-    ListNode* list1 = new ListNode(1);
-    ListNode* head1 = list1;
-    for (int i = 2; i <= n ; ++i) {
-        //if (i % 2 == 0) {
-            ListNode* cur = new ListNode(i);
-            list1->next = cur;
-            list1 = list1->next;
-        //}
-    }
-    //printList(head1);
-    ListNode* list2 = new ListNode;
-    ListNode* head2 = list2;
-    list2->val = 0 ;
-    for (int i = 1; i <= m; ++i) {
-        if (i % 2 != 0) {
-            ListNode* tmp = new ListNode(i);
-            list2->next = tmp;
-            list2 = list2->next;
-        }
-    }
-    //printList(head2);
-    ListNode* head = mergeTwoLists(head1, head2);
-    printList(head);
-    deleteList(head);
+
+    std::cout << mergeTwoLists(n, m);
+    //printList(head);
+    //deleteList(head);
 
     //head1 = reverseList(head1);
     //printList(head1);
