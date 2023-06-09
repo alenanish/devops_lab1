@@ -24,7 +24,7 @@ jobs:
       run: g++ Source.cpp -o source.o
       
     - name: test
-      run: g++ pch.cpp
+      run: g++ MergeTwoSortedListTests.cpp
       
     - name: upload artifact
       uses: actions/upload-artifact@v3.1.2
