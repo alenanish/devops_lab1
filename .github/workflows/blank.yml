@@ -18,15 +18,17 @@ jobs:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
+    env:
+      app_name: source_${{ matrix.os }}.o
     steps:
     - uses: actions/checkout@v3
     - name: build
-      run: g++ MergeTwoSortedLists/MergeTwoSortedLists/Source.cpp -o source.o
+      run: g++ MergeTwoSortedLists/MergeTwoSortedLists/Source.cpp -o ${{ env.app_name }}
 
     - name: upload artifact
       uses: actions/upload-artifact@v3.1.2
       with:
         name: cpp_app
-        path: source.o
+        path: ${{ env.app_name }}
         retention-days: 10
       
