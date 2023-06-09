@@ -16,7 +16,7 @@ jobs:
   checkout_and_build:
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
+        os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     env:
       app_name: source_${{ matrix.os }}.o
@@ -25,6 +25,8 @@ jobs:
     - name: build
       run: g++ MergeTwoSortedLists/MergeTwoSortedLists/Source.cpp -o ${{ env.app_name }}
       
+    - name: install cppunit
+      run: sudo apt install -y libcppunit-dev
     - name: test
       run: g++ MergeTwoSortedLists/MergeTwoSortedListTests/MergeTwoSortedListTests.cpp -o test
 
