@@ -28,7 +28,7 @@ jobs:
     - name: vstest-action
       uses: microsoft/vstest-action@v1.0.0
       with:
-        testAssembly: MergeTwoSortedListTests.dll # default is **\\*test*.dll\n!**\\*TestAdapter.dll\n!**\\obj\\**
+        testAssembly: MergeTwoSortedLists/x64/Debug/MergeTwoSortedListTests.dll # default is **\\*test*.dll\n!**\\*TestAdapter.dll\n!**\\obj\\**
 
       
     - name: upload artifact
