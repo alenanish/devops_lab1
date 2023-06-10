@@ -13,7 +13,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build_and_test:
+  checkout_and_build:
     strategy:
       matrix:
         os: [ windows-latest ] #, macos - latest, ubuntu-latest]
@@ -21,18 +21,17 @@ jobs:
     env:
       app_name: source_${{ matrix.os }}.o
     steps:
-    - name: Checkout
     - uses: actions/checkout@v3
-    
-    - name: Build
+    - name: build
       run: g++ MergeTwoSortedLists/MergeTwoSortedLists/Source.cpp -o ${{ env.app_name }}
       
-    - name: Test
+    - name: vstest-action
       uses: microsoft/vstest-action@v1.0.0
       with:
-        testAssembly: MergeTwoSortedLists/x64/Debug/MergeTwoSortedListTests.dll 
+        testAssembly: MergeTwoSortedLists/x64/Debug/MergeTwoSortedListTests.dll # default is **\\*test*.dll\n!**\\*TestAdapter.dll\n!**\\obj\\**
+
       
-    - name: Upload Artifact
+    - name: upload artifact
       uses: actions/upload-artifact@v3.1.2
       with:
         name: cpp_app
@@ -41,15 +40,16 @@ jobs:
         
         
   send_telegram:
-    name: Send Telegram
-    needs: build_and_test
+    name: send telegram
+    needs: checkout_and_build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/download-artifact@v3
       with:
         name: cpp_app
-        
-    - name: Send Telegram Message
+    - name: ls 
+      run: ls -la 
+    - name: send telegram message on push
       uses: appleboy/telegram-action@master
       with:
         to: ${{ secrets.TELEGRAM_TO }}
@@ -59,6 +59,4 @@ jobs:
             ${{ github.actor }} created commit:
             Commit message: ${{ github.event.commits[0].message }}
             Repository: ${{ github.repository }}
-            
             See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
-      
