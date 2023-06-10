@@ -21,7 +21,7 @@ jobs:
     env:
       app_name: source_${{ matrix.os }}.o
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v3.5.3
     - name: build
       run: g++ MergeTwoSortedLists/MergeTwoSortedLists/Source.cpp -o ${{ env.app_name }}
       
