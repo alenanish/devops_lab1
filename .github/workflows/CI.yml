@@ -26,7 +26,7 @@ jobs:
       run: g++ MergeTwoSortedLists/MergeTwoSortedLists/Source.cpp -o ${{ env.app_name }}
       
     - name: vstest-action
-      uses: microsoft/vstest-action@v2
+      uses: microsoft/vstest-action@v1.0.0
       with:
         testAssembly: MergeTwoSortedLists/x64/Debug/MergeTwoSortedListTests.dll
 
