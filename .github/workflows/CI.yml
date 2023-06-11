@@ -16,19 +16,15 @@ jobs:
   checkout_and_build:
     strategy:
       matrix:
-        os: [ windows-latest ] #, macos - latest, ubuntu-latest]
+        os: [ windows-latest , macos - latest, ubuntu-latest]
     runs-on: ${{ matrix.os }}
     env:
       app_name: source_${{ matrix.os }}.o
     steps:
     - uses: actions/checkout@v3.5.3
     - name: build
-      run: g++ MergeTwoSortedLists/MergeTwoSortedLists/Source.cpp -o ${{ env.app_name }}
+      run: g++ Source.cpp -o ${{ env.app_name }}
       
-    - name: vstest-action
-      uses: microsoft/vstest-action@v1.0.0
-      with:
-        testAssembly: MergeTwoSortedLists/x64/Debug/MergeTwoSortedListTests.dll
 
       
     - name: upload artifact
