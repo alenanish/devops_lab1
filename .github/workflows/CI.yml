@@ -31,7 +31,7 @@ jobs:
         languages: ${{ matrix.language }}
        
     - name: Build
-      run: g++ LinkedList.cpp -o ${{ env.app_name }}   
+      run: g++ Test.cpp LinkedList.cpp -o source -lgtest -lpthread  
        
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
@@ -44,13 +44,8 @@ jobs:
         sudo apt-get install cmake
               
     - name: Test
-      run: |
-        g++ Test.cpp LinkedList.cpp -o test -lgtest -lpthread
-        ./test
+      run: ./source
       
-        
-      
-        
     - name: Upload Artifact
       uses: actions/upload-artifact@v3.1.2
       with:
