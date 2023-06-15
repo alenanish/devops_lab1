@@ -7,13 +7,18 @@ on: [push, pull_request]
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
     strategy:
+      fail-fast: false
       matrix:
-        os: [ubuntu-latest]
-    runs-on: ${{ matrix.os }}
+        language: [ 'cpp' ]
     env:
       app_name: source_${{ matrix.os }}.o
-    name: Build  
     steps:
     - name: Checkout
       uses: actions/checkout@v3.5.3
@@ -21,6 +26,20 @@ jobs:
     - name: build
       run: g++ LinkedList.cpp -o ${{ env.app_name }} 
       
+    
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v2
+      with:
+        languages: ${{ matrix.language }}
+       
+    # Autobuild attempts to build any compiled languages (C/C++, C#, Go, Java, or Swift).
+    # If this step fails, then you should remove it and run the build manually (see below)
+    
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
+      with:
+        category: "/language:${{matrix.language}}"
+        
     - name: Upload Artifact
       uses: actions/upload-artifact@v3.1.2
       with:
