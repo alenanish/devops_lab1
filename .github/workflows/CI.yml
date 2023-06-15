@@ -6,7 +6,8 @@ on: [push, pull_request]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build:
+  build_and_analyze:
+    name: Build and Analyze
     runs-on: ubuntu-latest
     permissions:
       actions: read
@@ -47,7 +48,7 @@ jobs:
         
   send_telegram:
     name: Send Telegram
-    needs: build
+    needs: build_and_analyze
     runs-on: ubuntu-latest
     steps:
     - uses: actions/download-artifact@v3
@@ -68,7 +69,7 @@ jobs:
           
   docker:
     name: Docker
-    needs: build
+    needs: build_and_analyze
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
