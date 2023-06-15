@@ -176,8 +176,3 @@ std::string rotateRight(int n, int k) {
     deleteList(head);
     return result;
 }
-
-
-int main() {
-    return 0;
-}
