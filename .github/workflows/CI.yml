@@ -31,7 +31,7 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: ${{ ecrets.DOCKERHUB_USERNAME }}/clockbox:latest
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest
       
    # - name: upload artifact
    #   uses: actions/upload-artifact@v3.1.2
