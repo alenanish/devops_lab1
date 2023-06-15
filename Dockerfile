@@ -1,6 +1,6 @@
 FROM gcc:11 as build
 COPY . .
-RUN g++ Main.cpp
+RUN g++ Main.cpp LinkedList.cpp
 
 
 FROM ubuntu
