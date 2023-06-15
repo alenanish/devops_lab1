@@ -37,6 +37,19 @@ jobs:
       uses: github/codeql-action/analyze@v2
       with:
         category: "/language:${{matrix.language}}"
+    
+    - name: Install gtest
+      run: |
+        sudo apt-get install libgtest-dev
+        sudo apt-get install cmake
+              
+    - name: Test
+      run: |
+        g++ Test.cpp -o test -lgtest -lpthread
+        ./test
+      
+        
+      
         
     - name: Upload Artifact
       uses: actions/upload-artifact@v3.1.2
