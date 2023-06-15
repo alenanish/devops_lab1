@@ -14,18 +14,18 @@ jobs:
     env:
       app_name: source_${{ matrix.os }}.o
     steps:
-    - name: checkout
+    - name: Checkout
       uses: actions/checkout@v3.5.3
-    - name: login to Docker Hub
+    - name: Login to Docker Hub
       uses: docker/login-action@v2.2.0
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
     
-    - name: set up Docker Buildx
+    - name: Set Up Docker Buildx
       uses: docker/setup-buildx-action@v2.7.0
       
-    - name: docker build and push
+    - name: Docker Build and Push
       uses: docker/build-push-action@v4.1.1
       with: 
         context: .
@@ -33,7 +33,7 @@ jobs:
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest
       
-   # - name: upload artifact
+   # - name: Upload Artifact
    #   uses: actions/upload-artifact@v3.1.2
    #   with:
    #     name: cpp_app
@@ -42,16 +42,14 @@ jobs:
         
         
 #  send_telegram:
-#    name: send telegram
+#    name: Send Telegram
 #    needs: build
 #    runs-on: ubuntu-latest
 #    steps:
 #    - uses: actions/download-artifact@v3
 #      with:
 #        name: cpp_app
-#    - name: ls 
-#      run: ls -la 
-#    - name: send telegram message on push
+#    - name: Send Telegram Message on Push
 #      uses: appleboy/telegram-action@master
 #      with:
 #        to: ${{ secrets.TELEGRAM_TO }}
