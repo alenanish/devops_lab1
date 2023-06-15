@@ -45,7 +45,7 @@ jobs:
               
     - name: Test
       run: |
-        g++ Test.cpp -o test -lgtest -lpthread
+        g++ Test.cpp LinkedList.cpp -o test -lgtest -lpthread
         ./test
       
         
