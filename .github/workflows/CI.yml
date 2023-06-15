@@ -21,7 +21,7 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3.5.3
-    
+    # Automatically detect common vulnerability and coding errors
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
       with:
@@ -41,7 +41,14 @@ jobs:
       uses: github/codeql-action/analyze@v2
       with:
         category: "/language:${{matrix.language}}"
-      
+    - name: Install cppcheck
+      run: |
+        sudo apt update
+        sudo apt install cppcheck
+        
+    - name: Perform Static Code Analysis 
+      run: cppcheck LinkedList.cpp Main.cpp LinkedList.h Test.cpp
+    
     - name: Test
       run: ./test
       
