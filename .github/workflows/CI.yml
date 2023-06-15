@@ -1,58 +1,64 @@
 name: CI
 
 # Controls when the workflow will run
-on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+on: [push, pull_request]
+  # Triggers the workflow on push 
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  checkout_and_build:
+  build:
     strategy:
       matrix:
-        os: [ windows-latest , macos - latest, ubuntu-latest]
+        os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     env:
       app_name: source_${{ matrix.os }}.o
     steps:
-    - uses: actions/checkout@v3.5.3
-    - name: build
-      run: g++ Source.cpp -o ${{ env.app_name }}
-      
-
-      
-    - name: upload artifact
-      uses: actions/upload-artifact@v3.1.2
+    - name: checkout
+      uses: actions/checkout@v3.5.3
+    - name: login to Docker Hub
+      uses: docker/login-action@2
       with:
-        name: cpp_app
-        path: ${{ env.app_name }}
-        retention-days: 10
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+    
+    - name: set up Docker Buildx
+      uses: dicker/setup-builx-action@v2
+      
+    - name: docker build and push
+      run: docker/build-push-action@v2
+      with: 
+        context: .
+        file: ./Dockerfile
+        push: true
+        tags: ${{ ecrets.DOCKERHUB_USERNAME }}/clockbox:latest
+      
+   # - name: upload artifact
+   #   uses: actions/upload-artifact@v3.1.2
+   #   with:
+   #     name: cpp_app
+   #     path: ${{ env.app_name }}
+   #     retention-days: 10
         
         
-  send_telegram:
-    name: send telegram
-    needs: checkout_and_build
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/download-artifact@v3
-      with:
-        name: cpp_app
-    - name: ls 
-      run: ls -la 
-    - name: send telegram message on push
-      uses: appleboy/telegram-action@master
-      with:
-        to: ${{ secrets.TELEGRAM_TO }}
-        token: ${{ secrets.TELEGRAM_TOKEN }}
-        document: source_*.o
-        message: |
-            ${{ github.actor }} created commit:
-            Commit message: ${{ github.event.commits[0].message }}
-            Repository: ${{ github.repository }}
-            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+#  send_telegram:
+#    name: send telegram
+#    needs: build
+#    runs-on: ubuntu-latest
+#    steps:
+#    - uses: actions/download-artifact@v3
+#      with:
+#        name: cpp_app
+#    - name: ls 
+#      run: ls -la 
+#    - name: send telegram message on push
+#      uses: appleboy/telegram-action@master
+#      with:
+#        to: ${{ secrets.TELEGRAM_TO }}
+#        token: ${{ secrets.TELEGRAM_TOKEN }}
+#        document: source_*.o
+#        message: |
+#            ${{ github.actor }} created commit:
+#            Commit message: ${{ github.event.commits[0].message }}
+#            Repository: ${{ github.repository }}
+#            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
