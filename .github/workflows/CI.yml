@@ -32,7 +32,8 @@ jobs:
         
   send_telegram:
     name: Send Telegram
-    needs: build
+    #needs: build
+    if: always()
     runs-on: ubuntu-latest
     steps:
     - uses: actions/download-artifact@v3
