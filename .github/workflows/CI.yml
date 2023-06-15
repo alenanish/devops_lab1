@@ -32,14 +32,13 @@ jobs:
         
   send_telegram:
     name: Send Telegram
-    #needs: build
-    if: always()
+    needs: build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/download-artifact@v3
       with:
         name: cpp_app
-    - name: Send Telegram Message on Push
+    - name: Send Telegram Message
       uses: appleboy/telegram-action@master
       with:
         to: ${{ secrets.TELEGRAM_TO }}
@@ -50,7 +49,25 @@ jobs:
             Commit message: ${{ github.event.commits[0].message }}
             Repository: ${{ github.repository }}
             See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+  
+  
+  send_telegram_failure:
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+    - name: Send Telegram Message
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: |
+            Something went wrong
+            ${{ github.actor }} created commit:
+            Commit message: ${{ github.event.commits[0].message }}
+            Repository: ${{ github.repository }}
+            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
             
+          
   docker:
     name: Docker
     needs: build
