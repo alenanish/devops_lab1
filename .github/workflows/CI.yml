@@ -6,8 +6,8 @@ on: [push, pull_request]
   
 
 jobs:
-  build_and_test:
-    name: Build and Test
+  test_and_analyze:
+    name: Test and Analyze
     runs-on: ubuntu-latest
     permissions:
       actions: read
@@ -35,7 +35,9 @@ jobs:
         sudo apt-get install cmake
         
     - name: Build
-      run: g++ Test.cpp LinkedList.cpp -o ${{ env.app_name }} -lgtest -lpthread  
+      run: |
+        g++ Test.cpp LinkedList.cpp -o ${{ env.app_name }} -lgtest -lpthread  
+        g++ Main.cpp LinkedList.cpp -o source.o
        
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
@@ -45,17 +47,29 @@ jobs:
     - name: Test
       run: ./${{ env.app_name }}
       
+      
+  build_and_upload_artifact:
+    name: Build and Upload Artifact
+    needs: test_and_analyze
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3.5.3
+      
+    - name: Build
+      run: g++ Main.cpp LinkedList.cpp -o source.o
+      
     - name: Upload Artifact
       uses: actions/upload-artifact@v3.1.2
       with:
         name: cpp_app
-        path: ${{ env.app_name }}
+        path: source.o
         retention-days: 10
         
         
   send_telegram:
     name: Send Telegram
-    needs: build_and_test
+    needs: build_and_upload_artifact
     runs-on: ubuntu-latest
     steps:
     - uses: actions/download-artifact@v3
@@ -76,7 +90,7 @@ jobs:
           
   docker:
     name: Docker
-    needs: build_and_test
+    needs: build_and_upload_artifact
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
