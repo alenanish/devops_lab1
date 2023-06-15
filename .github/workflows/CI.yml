@@ -26,7 +26,7 @@ jobs:
       uses: dicker/setup-builx-action@v2
       
     - name: docker build and push
-      run: docker/build-push-action@v2
+      uses: docker/build-push-action@v2
       with: 
         context: .
         file: ./Dockerfile
