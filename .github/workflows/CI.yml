@@ -22,19 +22,16 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3.5.3
-      
-    - name: build
-      run: g++ LinkedList.cpp -o ${{ env.app_name }} 
-      
+          
     
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
       with:
         languages: ${{ matrix.language }}
        
-    # Autobuild attempts to build any compiled languages (C/C++, C#, Go, Java, or Swift).
-    # If this step fails, then you should remove it and run the build manually (see below)
-    
+    - name: Build
+      run: g++ LinkedList.cpp -o ${{ env.app_name }}   
+       
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
       with:
