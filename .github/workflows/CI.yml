@@ -13,6 +13,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       app_name: source_${{ matrix.os }}.o
+    name: Build  
     steps:
     - name: Checkout
       uses: actions/checkout@v3.5.3
@@ -50,9 +51,13 @@ jobs:
             See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
             
   docker:
+    name: Docker
     needs: build
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+        
     - name: Login to Docker Hub
       uses: docker/login-action@v2.2.0
       with:
