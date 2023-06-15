@@ -6,8 +6,8 @@ on: [push, pull_request]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  checkout_and_analyze:
-    name: Checkout and Analyze
+  build_and_test:
+    name: Build and Test
     runs-on: ubuntu-latest
     permissions:
       actions: read
@@ -29,17 +29,6 @@ jobs:
       with:
         languages: ${{ matrix.language }}
         
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
-      with:
-        category: "/language:${{matrix.language}}"
-      
-      
-  build_and_test: 
-    name: Buils and Test
-    needs: checkout_and_analyze
-    runs-on: ubuntu-latest
-    steps:
     - name: Install gtest
       run: |
         sudo apt-get install libgtest-dev
@@ -48,7 +37,11 @@ jobs:
     - name: Build
       run: g++ Test.cpp LinkedList.cpp -o source -lgtest -lpthread  
        
-            
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
+      with:
+        category: "/language:${{matrix.language}}"
+      
     - name: Test
       run: ./source
       
