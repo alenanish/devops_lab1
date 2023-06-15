@@ -118,7 +118,7 @@ std::string reverseList(int n) {
 
 int countNodes(int n) {
     ListNode* head = createList(n, 0);
-    int count = -1;
+    int count = 0;
     while (head) {
         head = head->next;
         ++count;
@@ -128,7 +128,7 @@ int countNodes(int n) {
 }
 
 int countNodes(ListNode* head) {
-    int count = -1;
+    int count = 0;
     while (head) {
         head = head->next;
         ++count;
