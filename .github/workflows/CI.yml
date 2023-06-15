@@ -27,7 +27,8 @@ jobs:
         name: cpp_app
         path: ${{ env.app_name }}
         retention-days: 10
-      
+        
+    
         
         
   send_telegram:
@@ -45,23 +46,6 @@ jobs:
         token: ${{ secrets.TELEGRAM_TOKEN }}
         document: source_*.o
         message: |
-            ${{ github.actor }} created commit:
-            Commit message: ${{ github.event.commits[0].message }}
-            Repository: ${{ github.repository }}
-            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
-  
-  
-  send_telegram_failure:
-    if: failure()
-    runs-on: ubuntu-latest
-    steps:
-    - name: Send Telegram Message
-      uses: appleboy/telegram-action@master
-      with:
-        to: ${{ secrets.TELEGRAM_TO }}
-        token: ${{ secrets.TELEGRAM_TOKEN }}
-        message: |
-            Something went wrong
             ${{ github.actor }} created commit:
             Commit message: ${{ github.event.commits[0].message }}
             Repository: ${{ github.repository }}
@@ -92,3 +76,19 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/linked_list:latest
+        
+  send_telegram_failure:
+    if: ${{ !success() }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Send Telegram Message
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: |
+            Something went wrong
+            ${{ github.actor }} created commit:
+            Commit message: ${{ github.event.commits[0].message }}
+            Repository: ${{ github.repository }}
+            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}  
