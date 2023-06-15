@@ -31,32 +31,35 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/linked_list:latest
+    
+    #- name: build
+    #  run: g++ MergeTwoSortedLists/MergeTwoSortedLists/Source.cpp -o ${{ env.app_name }} 
+    #- name: Upload Artifact
+    #  uses: actions/upload-artifact@v3.1.2
+    #  with:
+    #    name: cpp_app
+    #    path: ${{ env.app_name }}
+    #    retention-days: 10
       
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v3.1.2
-      with:
-        name: cpp_app
-        path: ${{ env.app_name }}
-        retention-days: 10
         
         
-  send_telegram:
-    name: Send Telegram
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/download-artifact@v3
-      with:
-        name: cpp_app
-    - name: Send Telegram Message on Push
-      uses: appleboy/telegram-action@master
-      with:
-        to: ${{ secrets.TELEGRAM_TO }}
-        token: ${{ secrets.TELEGRAM_TOKEN }}
-        document: source_*.o
-        message: |
-            ${{ github.actor }} created commit:
-            Commit message: ${{ github.event.commits[0].message }}
-            Repository: ${{ github.repository }}
-            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+#  send_telegram:
+#    name: Send Telegram
+#    needs: build
+#    runs-on: ubuntu-latest
+#    steps:
+#    - uses: actions/download-artifact@v3
+#      with:
+#        name: cpp_app
+#    - name: Send Telegram Message on Push
+#      uses: appleboy/telegram-action@master
+#      with:
+#        to: ${{ secrets.TELEGRAM_TO }}
+#        token: ${{ secrets.TELEGRAM_TOKEN }}
+#        document: source_*.o
+#        message: |
+#            ${{ github.actor }} created commit:
+#            Commit message: ${{ github.event.commits[0].message }}
+#            Repository: ${{ github.repository }}
+#            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
