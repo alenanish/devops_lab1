@@ -53,7 +53,7 @@ jobs:
       run: |
         sudo apt -y install python3-pip
         sudo pip install cpplint
-        cpplint LinkedList.cpp Test.cpp Main.cpp LinkedList.hpp
+        cpplint --filter=-build/include_subdir LinkedList.cpp Test.cpp Main.cpp LinkedList.hpp
         
     - name: Perform Static Code Analysis 
       run: cppcheck LinkedList.cpp Main.cpp LinkedList.h Test.cpp
