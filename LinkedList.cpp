@@ -1,7 +1,9 @@
+/*
+# Copyright (c) https://github.com/alenanish/devops_lab1 . All rights reserved.
+*/
 #include <iostream>
 #include <string>
 #include "LinkedList.hpp"
-
 
 void printList(ListNode* head) {
     while (head) {
@@ -36,13 +38,11 @@ ListNode* createList(int n, int d) {
 }
 
 void deleteList(ListNode* head) {
-    while (head)
-    {
+    while (head) {
         ListNode* next = head->next;
         delete head;
         head = next;
     }
-
 }
 
 std::string mergeTwoLists(int n, int m) {
@@ -58,14 +58,12 @@ std::string mergeTwoLists(int n, int m) {
         if (list1->val < list2->val) {
             head = list1;
             list1 = list1->next;
-        }
-        else {
+        } else {
             head = list2;
             list2 = list2->next;
         }
-    }
-    else {
-        list1 != nullptr ? head = list1 : list2 != nullptr ? head = list2 : head;
+    } else {
+      list1 != nullptr ? head = list1 : list2 != nullptr ? head = list2 : head;
     }
 
     ListNode* cur = head;
@@ -73,8 +71,7 @@ std::string mergeTwoLists(int n, int m) {
         if (list1->val < list2->val) {
             cur->next = list1;
             list1 = list1->next;
-        }
-        else {
+        } else {
             cur->next = list2;
             list2 = list2->next;
         }
@@ -113,7 +110,6 @@ std::string reverseList(int n) {
     std::string result = getResult(next);
     deleteList(head);
     return result;
-
 }
 
 int countNodes(int n) {
@@ -153,11 +149,8 @@ std::string rotateRight(int n, int k) {
     int i = 0;
     ListNode* prev = head;
     while (i < k % count) {
-
-        while (prev)
-        {
-            if (prev->next)
-            {
+        while (prev) {
+            if (prev->next) {
                 if (prev->next->next == nullptr)
                     break;
             }
@@ -176,3 +169,5 @@ std::string rotateRight(int n, int k) {
     deleteList(head);
     return result;
 }
+
+
