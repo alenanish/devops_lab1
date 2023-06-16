@@ -2,7 +2,7 @@
 # Copyright (c) https://github.com/alenanish/devops_lab1 . All rights reserved.
 */
 #include <iostream>
-#include "LinkedList.h"
+#include "LinkedList.hpp"
 #include "gtest/gtest.h"
 
 TEST(MergeTwoListsTest, Test1) {
