@@ -7,7 +7,7 @@ on: [push, pull_request]
 
 jobs:
   build_and_test:
-    name: Build and Test
+    name: Build, Lint and Test
     runs-on: ubuntu-latest
     #permissions:
     #  actions: read
@@ -68,29 +68,7 @@ jobs:
       with:
         name: cpp_app
         path: source
-        retention-days: 10
-        
-        
-  send_telegram:
-    name: Send Telegram
-    needs: build_and_test
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/download-artifact@v3
-      with:
-        name: cpp_app
-    - name: Send Telegram Message
-      uses: appleboy/telegram-action@master
-      with:
-        to: ${{ secrets.TELEGRAM_TO }}
-        token: ${{ secrets.TELEGRAM_TOKEN }}
-        document: source*
-        message: |
-            ${{ github.actor }} created commit:
-            Commit message: ${{ github.event.commits[0].message }}
-            Repository: ${{ github.repository }}
-            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
-            
+        retention-days: 10            
           
   docker:
     name: Docker
@@ -116,5 +94,24 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/linked_list:latest
+  send_telegram:
+    name: Send Telegram
+    needs: docker
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/download-artifact@v3
+      with:
+        name: cpp_app
+    - name: Send Telegram Message
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        document: source*
+        message: |
+            ${{ github.actor }} created commit:
+            Commit message: ${{ github.event.commits[0].message }}
+            Repository: ${{ github.repository }}
+            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
         
        
