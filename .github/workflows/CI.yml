@@ -52,7 +52,7 @@ jobs:
     - name: Install cpplint
       run: |
         sudo apt -y install python3-pip
-        sudo pip intall cpplint
+        sudo pip install cpplint
         cpplint LinkedList.cpp Test.cpp Main.cpp LinkedList.hpp
         
     - name: Perform Static Code Analysis 
