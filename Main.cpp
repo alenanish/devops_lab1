@@ -1,7 +1,7 @@
 /*
 # Copyright (c) https://github.com/alenanish/devops_lab1 . All rights reserved.
 */
-#include <iostrea>
+#include <iostream>
 #include <string>
 #include "LinkedList.hpp"
 
