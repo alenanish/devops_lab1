@@ -6,11 +6,11 @@
 #include "gtest/gtest.h"
 
 TEST(MergeTwoListsTest, Test) {
-  ASSERT_EQ(mergeTwoLists(2, 2), "0->1-2->3->nullptr");
+  ASSERT_EQ(mergeTwoLists(2, 2), "0->1->2->3->nullptr");
 }
 
 TEST(ReverseListTest, Test) {
-  ASSERT_EQ(reverseList(4), "3->2-1->0->nullptr");
+  ASSERT_EQ(reverseList(4), "6->4->2->0->nullptr");
 }
 
 TEST(CountNodesTest, Test) {
