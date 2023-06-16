@@ -48,6 +48,16 @@ jobs:
         
     - name: Perform Static Code Analysis 
       run: cppcheck LinkedList.cpp Main.cpp LinkedList.h Test.cpp
+      
+    - name: Install cpplint
+      run: |
+        sudo apt iy install python3-pip
+        sudo pip intall cpplint
+        cpplint LinkedList.cpp Test.cpp Main.cpp LinkedList.hpp
+        
+    - name: Perform Static Code Analysis 
+      run: cppcheck LinkedList.cpp Main.cpp LinkedList.h Test.cpp
+    
     
     - name: Test
       run: ./test
