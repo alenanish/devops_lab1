@@ -5,8 +5,16 @@
 #include "LinkedList.hpp"
 #include "gtest/gtest.h"
 
-TEST(MergeTwoListsTest, Test1) {
-  ASSERT_EQ(countNodes(5), 5);
+TEST(MergeTwoListsTest, Test) {
+  ASSERT_EQ(mergeTwoLists(2, 2), "0->1-2->3->nullptr");
+}
+
+TEST(ReverseListTest, Test) {
+  ASSERT_EQ(reverseList(4), "3->2-1->0->nullptr");
+}
+
+TEST(CountNodesTest, Test) {
+  ASSERT_EQ(countNodes(4), 4);
 }
 
 int main(int argc, char **argv) {
